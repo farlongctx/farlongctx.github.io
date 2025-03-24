@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Long-Context Autoregressive Video Modeling with Next-Frame Prediction">
+  <meta name="keywords" content="FAR">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FAR</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+  <link href='https://fonts.googleapis.com/css?family=Caveat' rel='stylesheet'>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrollable Table with Arrow Buttons</title>
+    <style>
+      .video-no-container video::-webkit-media-controls {
+        display: none !important;
+      }
+    </style>
+  </head>
+
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-2 publication-title">Long-Context Autoregressive Video Modeling <br/> with Next-Frame Prediction</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://ycgu.site/">Yuchao Gu</a>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=S7bGBmkyNtEC&hl=zh-CN/">Weijia Mao</a>,
+            </span>
+            <span class="author-block">
+              <a href="https://sites.google.com/view/showlab">Mike Zheng Shou</a>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">ShowLab, National University of Singapore</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">              
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2312.02087"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/showlab/FAR"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Teaser video-->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body is-centered has-text-centered">
+      <p style="background-color:lightgoldenrodyellow">
+      📖<strong>TL;DR</strong>: FAR (i.e., Frame Autoregressive Models) is a new baseline for <a style="color: purple; font-weight: bold;">autoregressive video generation</a>, and achieves state-of-the-art performance on both short- and long-context video modeling. 
+      </p>
+    </div>
+  </div> 
+</section>
+<!-- End teaser video -->
+
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Long-context autoregressive modeling has significantly advanced language generation, but video generation still struggles to fully utilize extended temporal contexts. To investigate long-context video modeling, we introduce Frame AutoRegressive (FAR), a strong baseline for video autoregressive modeling. Just as language models learn causal dependencies between tokens (i.e., Token AR), FAR models temporal causal dependencies between continuous frames, achieving better convergence than Token AR and video diffusion transformers. Building on FAR, we observe that long-context vision modeling faces challenges due to visual redundancy. Existing RoPE lacks effective temporal decay for remote context and fails to extrapolate well to long video sequences. Additionally, training on long videos is computationally expensive, as vision tokens grow much faster than language tokens. To tackle these issues, we propose balancing locality and long-range dependency. We introduce FlexRoPE, an test-time technique that adds flexible temporal decay to RoPE, enabling extrapolation to 16× longer vision contexts. Furthermore, we propose long short-term context modeling, where a high-resolution short-term context window ensures fine-grained temporal consistency, while an unlimited long-term context window encodes long-range information using fewer tokens. With this approach, we can train on long video sequences with a manageable token context length. We demonstrate that FAR achieves state-of-the-art performance in both short- and long-video generation, providing a simple yet effective baseline for video autoregressive modeling.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->    
+</section>
+
+<!-- Paper poster -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">What is the potential of FAR compared to Video Diffusion Transformers?</h2>
+          <div class="content has-text-justified">
+              
+            <strong>1. Better converenge:</strong> FAR achieves better convergence than video diffusion models with the same continuous latent space:<br/>
+            
+            <br/>
+
+            <div style="text-align: center;">
+              <img src="static/assets/converenge.jpg" alt="" width="400" />
+            </div>
+            
+            <strong>2. Native Supports Vision Context:</strong> Video diffusion transformers usually require additional image-to-video finetuning to exploit image condition, while FAR native supports variable length of vision context (context frame = 0 means video generation, context frame > 0 means video preidction). FAR achieves state-of-the-art performance on both video generation and video prediction within one model training with next-frame-prediction:<br/>
+            
+            <br/>
+
+            <div style="text-align: center;">
+              <img src="static/assets/performance.png" alt="" width="800" />
+            </div>
+
+            <strong>3.  Test-time Extrapolation Performance:</strong> FAR exploits FlexRoPE to balance the locality and long-range dependencies, enable about 16x longer test-time temporal extrapolation:<br/>
+            
+            <br/>
+
+            <div style="text-align: center;">
+              <img src="static/assets/extrapolation.png" alt="" width="1000" />
+            </div>
+
+            <strong>4. Efficient Training on Long Video Sequence:</strong> FAR exploits long short-term context modeling, to reduce the redundant token lengths when training on long video. This technique is the key for video long-context modeling:<br/>
+            
+            <br/>
+
+            <div style="text-align: center;">
+              <img src="static/assets/long_short_term_ctx.jpg" alt="" width="400" />
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--End paper poster -->
+
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Pipeline</h2>
+        <div class="content has-text-justified">
+
+          <div style="text-align: center;">
+            <img src="static/assets/pipeline.png" alt="" width="1000" />
+          </div>
+          
+          <ol>
+            <li> <strong>Stochastic Clean Context:</strong> In training, we sotochastic replace noisy context with clean context frame and use timestep beyond the diffusion scheduler (\eg, -1) to bridge the training and inference gap of observed contexts. </li>
+            <li> <strong>Long-Short Term Context Modeling:</strong> In training long-video sequence, we matain a high-resolution short-term context window to model fine-grained temporal consistency, and an unlimited long-term context window to reduce the redundant token with aggressiove patchfication. </li>
+          </ol>
+
+        </div>
+      </div>
+    </div>
+  </div>
+    <!--/ Abstract. -->    
+</section>
+
+<!-- Paper poster -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column">
+          <h2 class="title is-3">Main Result</h2>
+          <div class="content has-text-justified">
+
+            <strong>1. Compare to previous methods, FAR better exploit the provided context frames (with red boundary), and in future preidciotn exploit its 3D-structure.</strong>
+            
+            <br/>
+            
+            <table width="1200" align="center" class="video-no-container">
+              <tbody>
+                <tr>
+                  <th><video id="master15" width="200" src="static/assets/dmlab_samples/sample_gt_0.mp4" autoplay="" loop="" controls="" muted=""> </video> </th>
+                  <th><video data-master-id="master15" width="200" src="static/assets/dmlab_samples/sample_gt_1.mp4" autoplay="" loop="" controls="" muted=""> </video> </th>
+                  <th><video data-master-id="master15" width="200" src="static/assets/dmlab_samples/sample_gt_2.mp4" autoplay="" loop="" controls="" muted=""> </video> </th>
+                  <th><video data-master-id="master15" width="200" src="static/assets/dmlab_samples/sample_gt_3.mp4" autoplay="" loop="" controls="" muted=""> </video> </th>
+                  <th><video data-master-id="master15" width="200" src="static/assets/dmlab_samples/sample_gt_5.mp4" autoplay="" loop="" controls="" muted=""> </video> </th>
+                  <th><video data-master-id="master15" width="200" src="static/assets/dmlab_samples/sample_gt_7.mp4" autoplay="" loop="" controls="" muted=""> </video> </th>
+                </tr>
+              </tbody>
+            </table>
+            <div style="text-align: center;">
+              Red Boundary: Observed context frames, Left: prediction, Right: GT
+            </div>          
+            <div style="text-align: center;">
+              <img src="static/assets/dmlab_sample.png" alt="" width="1000" />
+            </div>
+
+            <strong>2. FAR achieve state-of-the-art on conditional/unconditional video generation, short video prediction and long-video preidction.</strong>
+            
+            <br/><br/>
+
+            <div style="text-align: center;">
+              <img src="static/assets/result.png" alt="" width="1000" />
+            </div>
+
+
+            <strong>3. FAR demonstrate better temporal extrapolation result, (we display 4x faster, total 256 frames, trained on 16 frames).
+            
+            <div class="is-centered has-text-centered video-no-container">
+              <video preload="auto" poster="" autoplay controls muted loop width="600px" outline="0px"> 
+                <source src="static/assets/flexrope_gen.mp4"
+                type="video/mp4">
+              </video>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--End paper poster -->
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{gu2025far,
+  journal   = {arXiv preprint},
+  year      = {2023},
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This means you are free to borrow the <a
+              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
+            we just ask that you link back to this page in the footer.
+            Please remember to remove the analytics code included in the header of the website which
+            you do not want on your website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.onload = function () {
+    // Sync function
+    function syncVideos(master, slaves) {
+      master.addEventListener('play', () => {
+        slaves.forEach(video => {
+          video.currentTime = master.currentTime;
+          video.play();
+        });
+      });
+
+      master.addEventListener('pause', () => {
+        slaves.forEach(video => video.pause());
+      });
+
+      master.addEventListener('seeked', () => {
+        slaves.forEach(video => {
+          video.currentTime = master.currentTime;
+        });
+      });
+    }
+
+    // Sync setup for all masters
+    document.querySelectorAll('[id^="master"]').forEach(masterVideo => {
+      const masterId = masterVideo.getAttribute('id');
+      const slaveVideos = Array.from(document.querySelectorAll(`[data-master-id="${masterId}"]`));
+      syncVideos(masterVideo, slaveVideos);
+    });
+  };
+  
+</script>
+
+</body>
+</html>
