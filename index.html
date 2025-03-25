@@ -181,11 +181,11 @@
 
             <hr>
 
-            <strong>4. Efficient Training on Long Video Sequence:</strong>
+            <strong>4. Efficient Training/inference on Long Video Sequence:</strong>
             
             <ul>
-              <li>Video diffusion transformers: cannot efficient train on long videos.</li>
-              <li>FAR: exploits long short-term context modeling, reduce the redundant token lengths when training/fine-tuning on long videos.</li>
+              <li>Video diffusion transformers: cannot efficiently train/infer on long videos because the vision token length scales rapidly with the number of frames.</li>
+              <li>FAR: exploits long short-term context modeling, reduce redundant token lengths during training and fine-tuning on long videos. During inference, KV-Cache is supported to ensure efficiency.</li>
             </ul>
 
             <div style="text-align: center;">
@@ -211,7 +211,16 @@
           <div style="text-align: center;">
             <img src="static/assets/pipeline.png" alt="" width="1000" />
           </div>
+
+          <strong>FAR is trained using a frame-wise flow-matching objective with autoregressive contexts. The attention mask in FAR 👇 preserves causality between frames while allowing full attention within each frame.</strong>
           
+          <br/><br/>
+          
+          <div style="text-align: center;">
+            <img src="static/assets/attn_mask.png" alt="" width="400" />
+          </div>
+          
+          <br/>
           <strong>Key Techniques:</strong>
           <ol>
             <li> <strong>Stochastic Clean Context:</strong> In training, we stochastically replace a portion of noisy context with clean context frames and use timesteps beyond the diffusion scheduler (e.g., -1) to indicate them. This strategy bridges the training and inference gap of observed contexts without incurring additional training costs. </li>
