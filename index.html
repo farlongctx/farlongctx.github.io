@@ -112,7 +112,7 @@
   <div class="container is-max-desktop">
     <div class="hero-body is-centered has-text-centered">
       <p style="background-color:lightgoldenrodyellow">
-      📖<strong>TL;DR</strong>: FAR (i.e., Frame Autoregressive Models) is a new baseline for <a style="color: purple; font-weight: bold;">autoregressive video generation</a>, and achieves state-of-the-art performance on both short- and long-context video modeling. 
+      📖<strong>TL;DR</strong>: FAR (<u>i.e.</u>, <strong><u>F</u></strong>rame <strong><u>A</u></strong>utoregressive <strong><u>M</u></strong>odels) is a new baseline for <a style="color: purple; font-weight: bold;">autoregressive video generation</a>, and achieves state-of-the-art performance on both short- and long-context video modeling. 
       </p>
     </div>
   </div> 
@@ -141,36 +141,52 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-3">What is the potential of FAR compared to Video Diffusion Transformers?</h2>
+          <h2 class="title is-3">What is the potential of FAR compared to video diffusion transformers?</h2>
           <div class="content has-text-justified">
               
-            <strong>1. Better converenge:</strong> FAR achieves better convergence than video diffusion models with the same continuous latent space:<br/>
-            
-            <br/>
+            <strong>1. Better Converenge:</strong> 
+              <ul>
+                <li>FAR requires same training cost to video diffusion transformers.</li>
+                <li>FAR achieves better convergence than video diffusion transformers with the same latent space.</li>
+              </ul>
 
             <div style="text-align: center;">
               <img src="static/assets/converenge.jpg" alt="" width="400" />
             </div>
             
-            <strong>2. Native Supports Vision Context:</strong> Video diffusion transformers usually require additional image-to-video finetuning to exploit image condition, while FAR native supports variable length of vision context (context frame = 0 means video generation, context frame > 0 means video preidction). FAR achieves state-of-the-art performance on both video generation and video prediction within one model training with next-frame-prediction:<br/>
-            
-            <br/>
+            <hr>
+
+            <strong>2. Native Support for Vision Context:</strong>
+              <ul>
+                <li>Video diffusion transformers: requires additional image-to-video fine-tuning to expolit image conditions.</li>
+                <li>FAR: provides native support for clean vision context at various lengths, achieving state-of-the-art performance in video generation (context frame = 0) and video prediction (context frame ≥ 1).</li>
+              </ul>
 
             <div style="text-align: center;">
               <img src="static/assets/performance.png" alt="" width="800" />
             </div>
-
-            <strong>3.  Test-time Extrapolation Performance:</strong> FAR exploits FlexRoPE to balance the locality and long-range dependencies, enable about 16x longer test-time temporal extrapolation:<br/>
             
-            <br/>
+            <hr>
+            
+            <strong>3. Test-time Temporal Extrapolation:</strong> 
+              <ul>
+                <li>Video diffusion transformers: are usually not suitable to generate longer sequence than their training window.</li>
+                <li>FAR: support for 16x longer test-time temporal extrapolation without fine-tuning on long video sequence.</li>
+              </ul>
+            
 
             <div style="text-align: center;">
               <img src="static/assets/extrapolation.png" alt="" width="1000" />
             </div>
 
-            <strong>4. Efficient Training on Long Video Sequence:</strong> FAR exploits long short-term context modeling, to reduce the redundant token lengths when training on long video. This technique is the key for video long-context modeling:<br/>
+            <hr>
+
+            <strong>4. Efficient Training on Long Video Sequence:</strong>
             
-            <br/>
+            <ul>
+              <li>Video diffusion transformers: cannot efficient train on long videos.</li>
+              <li>FAR: exploits long short-term context modeling, reduce the redundant token lengths when training/fine-tuning on long videos.</li>
+            </ul>
 
             <div style="text-align: center;">
               <img src="static/assets/long_short_term_ctx.jpg" alt="" width="400" />
@@ -196,9 +212,10 @@
             <img src="static/assets/pipeline.png" alt="" width="1000" />
           </div>
           
+          <strong>Key Techniques:</strong>
           <ol>
-            <li> <strong>Stochastic Clean Context:</strong> In training, we sotochastic replace noisy context with clean context frame and use timestep beyond the diffusion scheduler (\eg, -1) to bridge the training and inference gap of observed contexts. </li>
-            <li> <strong>Long-Short Term Context Modeling:</strong> In training long-video sequence, we matain a high-resolution short-term context window to model fine-grained temporal consistency, and an unlimited long-term context window to reduce the redundant token with aggressiove patchfication. </li>
+            <li> <strong>Stochastic Clean Context:</strong> In training, we stochastically replace a portion of noisy context with clean context frames and use timesteps beyond the diffusion scheduler (e.g., -1) to indicate them. This strategy bridges the training and inference gap of observed contexts without incurring additional training costs. </li>
+            <li> <strong>Long Short-Term Context Modeling:</strong> In training/fine-tuning on long-video sequences, we maintain a high-resolution short-term context window to model fine-grained temporal consistency, and an unlimited long-term context window to reduce redundant tokens with aggressive patchification. </li>
           </ol>
 
         </div>
@@ -214,13 +231,13 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column">
-          <h2 class="title is-3">Main Result</h2>
+          <h2 class="title is-3">Main Results</h2>
           <div class="content has-text-justified">
 
-            <strong>1. Compare to previous methods, FAR better exploit the provided context frames (with red boundary), and in future preidciotn exploit its 3D-structure.</strong>
+            <strong>1. Compared to previous methods, FAR effectively exploits the provided context frames <a style="color: red; font-weight: bold;">(annotated with red boxes)</a> and achieves long-prediction consistency (on 3D structures and wall's patterns).</strong>
             
-            <br/>
-            
+            <br/><br/>
+
             <table width="1200" align="center" class="video-no-container">
               <tbody>
                 <tr>
@@ -233,14 +250,16 @@
                 </tr>
               </tbody>
             </table>
-            <div style="text-align: center;">
-              Red Boundary: Observed context frames, Left: prediction, Right: GT
-            </div>          
+
+            <p style="text-align: center; margin-top: 10px;"><strong>(red boxes: observed context frames, left: prediction, right: ground-truth)</strong></p>
+
             <div style="text-align: center;">
               <img src="static/assets/dmlab_sample.png" alt="" width="1000" />
             </div>
 
-            <strong>2. FAR achieve state-of-the-art on conditional/unconditional video generation, short video prediction and long-video preidction.</strong>
+            <hr>
+
+            <strong>2. FAR achieves state-of-the-art performance on unconditional/conditional video generation, short-video prediction and long-video preidction.</strong>
             
             <br/><br/>
 
@@ -248,14 +267,18 @@
               <img src="static/assets/result.png" alt="" width="1000" />
             </div>
 
+            <hr>
 
-            <strong>3. FAR demonstrate better temporal extrapolation result, (we display 4x faster, total 256 frames, trained on 16 frames).
+            <strong>3. FAR demonstrates strong test-time temporal extrapolation on both periodical motion and non-periodical motion.
+            
+            <br/><br/>
             
             <div class="is-centered has-text-centered video-no-container">
               <video preload="auto" poster="" autoplay controls muted loop width="600px" outline="0px"> 
                 <source src="static/assets/flexrope_gen.mp4"
                 type="video/mp4">
               </video>
+              <p class="video-caption" style="text-align: center; margin-top: 10px;">(16x extrapolation, trained on 16 frames while inferring 256 frames, displayed at 4x speed)</p>
             </div>
 
           </div>
