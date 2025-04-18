@@ -127,7 +127,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Long-context autoregressive modeling has significantly advanced language generation, but video generation still struggles to fully utilize extended temporal contexts. To investigate long-context video modeling, we introduce Frame AutoRegressive (FAR), a strong baseline for video autoregressive modeling. Just as language models learn causal dependencies between tokens (i.e., Token AR), FAR models temporal causal dependencies between continuous frames, achieving better convergence than Token AR and video diffusion transformers. Building on FAR, we observe that long-context vision modeling faces challenges due to visual redundancy. Existing RoPE lacks effective temporal decay for remote context and fails to extrapolate well to long video sequences. Additionally, training on long videos is computationally expensive, as vision tokens grow much faster than language tokens. To tackle these issues, we propose balancing locality and long-range dependency. We introduce FlexRoPE, an test-time technique that adds flexible temporal decay to RoPE, enabling extrapolation to 16× longer vision contexts. Furthermore, we propose long short-term context modeling, where a high-resolution short-term context window ensures fine-grained temporal consistency, while an unlimited long-term context window encodes long-range information using fewer tokens. With this approach, we can train on long video sequences with a manageable token context length. We demonstrate that FAR achieves state-of-the-art performance in both short- and long-video generation, providing a simple yet effective baseline for video autoregressive modeling.
+            Long-context autoregressive modeling has significantly advanced language generation, but video generation still struggles to fully utilize extended temporal contexts. To investigate long-context video modeling, we introduce Frame AutoRegressive (FAR), a strong baseline for video autoregressive modeling. Just as language models learn causal dependencies between tokens (i.e., Token AR), FAR models temporal causal dependencies between continuous frames, achieving better convergence than Token AR and video diffusion transformers. Building on FAR, we observe that long-context video modeling faces challenges due to visual redundancy. Training on long videos is computationally expensive, as vision tokens grow much faster than language tokens. To tackle this issue, we propose balancing locality and long-range dependency through long short-term context modeling. A high-resolution short-term context window ensures fine-grained temporal consistency, while an unlimited long-term context window encodes long-range information using fewer tokens. With this approach, we can train on long video sequences with a manageable token context length, thereby significantly reducing training time and memory usage. Furthermore, we propose a multi-level KV cache designed to support the long short-term context modeling, which accelerating inference on long video sequences. We demonstrate that FAR achieves state-of-the-art performance in both short- and long-video generation, providing a simple yet effective baseline for video autoregressive modeling.
           </p>
         </div>
       </div>
@@ -167,29 +167,29 @@
             </div>
             
             <hr>
+
+            <strong>3. Efficient Training on Long Video Sequence:</strong>
             
-            <strong>3. Test-time Temporal Extrapolation:</strong> 
-              <ul>
-                <li>Video diffusion transformers: are usually not suitable to generate longer sequence than their training window.</li>
-                <li>FAR: support for 16x longer test-time temporal extrapolation without fine-tuning on long video sequence.</li>
-              </ul>
-            
+            <ul>
+              <li>Video diffusion transformers: cannot efficiently train on long videos because the vision token scales rapidly with the number of frames.</li>
+              <li>FAR: exploits <b>long short-term context modeling</b>, reduce redundant token lengths during training or fine-tuning on long videos.</li>
+            </ul>
 
             <div style="text-align: center;">
-              <img src="static/assets/extrapolation.png" alt="" width="1000" />
+              <img src="static/assets/long_short_term_ctx.png" alt="" width="1000" />
             </div>
 
             <hr>
 
-            <strong>4. Efficient Training/inference on Long Video Sequence:</strong>
-            
+            <strong>4. Fast Autoregressive Inference on Long Video Sequence:</strong>
+
             <ul>
-              <li>Video diffusion transformers: cannot efficiently train/infer on long videos because the vision token length scales rapidly with the number of frames.</li>
-              <li>FAR: exploits long short-term context modeling, reduce redundant token lengths during training and fine-tuning on long videos. During inference, KV-Cache is supported to ensure efficiency.</li>
+              <li>Video diffusion transformers: cannot directly autoregressive inference for long-video without image-to-video finetuning.</li>
+              <li>FAR: exploits <b>multi-level kv cache</b> to speedup autoregressive inference on long videos.</li>
             </ul>
 
             <div style="text-align: center;">
-              <img src="static/assets/long_short_term_ctx.jpg" alt="" width="400" />
+              <img src="static/assets/kv_cache_comp.png" alt="" width="400" />
             </div>
 
           </div>
@@ -219,12 +219,22 @@
           <div style="text-align: center;">
             <img src="static/assets/attn_mask.png" alt="" width="400" />
           </div>
+
+          <strong>Multi-level KV cache👇 is adopted in FAR for speedup autoregressive inference on long video.</strong>
+          
+          <br/><br/>
+          
+          <div style="text-align: center;">
+            <img src="static/assets/multi_level_kv_cache.png" alt="" width="1000" />
+          </div>
+          
           
           <br/>
           <strong>Key Techniques:</strong>
           <ol>
             <li> <strong>Stochastic Clean Context:</strong> In training, we stochastically replace a portion of noisy context with clean context frames and use timesteps beyond the diffusion scheduler (e.g., -1) to indicate them. This strategy bridges the training and inference gap of observed contexts without incurring additional training costs. </li>
-            <li> <strong>Long Short-Term Context Modeling:</strong> In training/fine-tuning on long-video sequences, we maintain a high-resolution short-term context window to model fine-grained temporal consistency, and an unlimited long-term context window to reduce redundant tokens with aggressive patchification. </li>
+            <li> <strong>Long Short-Term Context Modeling:</strong> To reduce the training cost on long-video sequences, we maintain a high-resolution short-term context window to model fine-grained temporal consistency, and an unlimited long-term context window to reduce redundant tokens with <b>aggressive patchification</b>. </li>
+            <li> <strong>Multi-Level KV Cache:</strong> To speedup autoregressive inference on long-video sequences, we schedule long-term and short-term context with multi-level KV cache. </li>
           </ol>
 
         </div>
@@ -277,18 +287,6 @@
             </div>
 
             <hr>
-
-            <strong>3. FAR demonstrates strong test-time temporal extrapolation performance on both periodical motion and non-periodical motion.
-            
-            <br/><br/>
-            
-            <div class="is-centered has-text-centered video-no-container">
-              <video preload="auto" poster="" autoplay controls muted loop width="600px" outline="0px"> 
-                <source src="static/assets/flexrope_gen.mp4"
-                type="video/mp4">
-              </video>
-              <p class="video-caption" style="text-align: center; margin-top: 10px;">(16x extrapolation, trained on 16 frames while inferring 256 frames, displayed at 4x speedup)</p>
-            </div>
 
           </div>
         </div>
